@@ -9,7 +9,8 @@ class NeuTextField extends StatelessWidget {
   final TextEditingController controller;
 
   NeuTextField(
-      {required this.hint,
+      {super.key,
+      required this.hint,
       required this.obscure,
       required this.controller,
       required this.selection});
