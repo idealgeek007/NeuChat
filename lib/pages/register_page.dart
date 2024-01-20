@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gusto_neumorphic/gusto_neumorphic.dart';
 
 import '../components/my_button.dart';
 import '../components/neu_textfield.dart';
@@ -9,6 +10,8 @@ class RegisterPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
   final TextEditingController _pwconfirmController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
   final void Function()? onTap;
 
   @override
@@ -19,21 +22,33 @@ class RegisterPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.message,
-              size: 60,
-              color: Theme.of(context).colorScheme.primary,
+            Neumorphic(
+              child: Image.asset('assets/logo.png'),
+              style: NeumorphicStyle(
+                  color: Theme.of(context).colorScheme.background),
             ),
             SizedBox(
               height: 50,
             ),
-            Text(
+            NeumorphicText(
               "Let's get you onboard",
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary, fontSize: 20),
+              textStyle: NeumorphicTextStyle(
+                  fontSize: 20, fontWeight: FontWeight.w500),
+              style: NeumorphicStyle(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
             ),
             SizedBox(
               height: 50,
+            ),
+            NeuTextField(
+              selection: true,
+              hint: "Name",
+              controller: _nameController,
+              obscure: false,
+            ),
+            SizedBox(
+              height: 15,
             ),
             NeuTextField(
               selection: true,
@@ -76,7 +91,7 @@ class RegisterPage extends StatelessWidget {
                 Text(
                   'Already have an account? ',
                   style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
                 ),
                 GestureDetector(
                   onTap: onTap,
@@ -84,7 +99,7 @@ class RegisterPage extends StatelessWidget {
                     'Login now',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary),
+                        color: Theme.of(context).colorScheme.secondary),
                   ),
                 )
               ],
@@ -104,7 +119,7 @@ class RegisterPage extends StatelessWidget {
     if (_pwController.text == _pwconfirmController.text) {
       try {
         _auth.signUpWithEmailPassword(
-            _emailController.text, _pwController.text);
+            _emailController.text, _pwController.text, _nameController.text);
       } catch (e) {
         showDialog(
             context: context,

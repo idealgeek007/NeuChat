@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:neumorphic_ui/neumorphic_ui.dart';
+import 'package:gusto_neumorphic/gusto_neumorphic.dart';
 
 class NeuTextField extends StatelessWidget {
   final String hint;
   final bool obscure;
   final bool selection;
+  final FocusNode? focusNode;
 
   final TextEditingController controller;
 
@@ -13,7 +13,8 @@ class NeuTextField extends StatelessWidget {
       required this.hint,
       required this.obscure,
       required this.controller,
-      required this.selection});
+      required this.selection,
+      this.focusNode});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,9 @@ class NeuTextField extends StatelessWidget {
       height: 70,
       child: Neumorphic(
         style: NeumorphicStyle(
+          lightSource: LightSource.topLeft,
+          intensity: 5,
+          color: Theme.of(context).colorScheme.primary,
           depth: NeumorphicTheme.embossDepth(context),
           boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(15)),
         ),
@@ -31,6 +35,7 @@ class NeuTextField extends StatelessWidget {
 
           obscureText: obscure,
           controller: controller,
+          focusNode: focusNode,
           decoration: InputDecoration(
             hintText: hint,
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chat_app/components/my_button.dart';
 import 'package:chat_app/components/neu_textfield.dart';
+import 'package:gusto_neumorphic/gusto_neumorphic.dart';
 
 import '../services/authentication/auth_service.dart';
 
@@ -34,18 +35,21 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.message,
-              size: 60,
-              color: Theme.of(context).colorScheme.primary,
+            Neumorphic(
+              child: Image.asset('assets/logo.png'),
+              style: NeumorphicStyle(
+                  color: Theme.of(context).colorScheme.background),
             ),
             SizedBox(
               height: 50,
             ),
-            Text(
+            NeumorphicText(
               "Hey!! There You are,Welcome back",
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary, fontSize: 20),
+              textStyle: NeumorphicTextStyle(
+                  fontSize: 18, fontWeight: FontWeight.w500),
+              style: NeumorphicStyle(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
             ),
             SizedBox(
               height: 50,
@@ -82,7 +86,7 @@ class LoginPage extends StatelessWidget {
                 Text(
                   'New here? Let\'s change that! ',
                   style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
                 ),
                 GestureDetector(
                   onTap: onTap,
@@ -90,7 +94,7 @@ class LoginPage extends StatelessWidget {
                     'Register now',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary),
+                        color: Theme.of(context).colorScheme.secondary),
                   ),
                 )
               ],

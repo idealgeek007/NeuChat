@@ -1,8 +1,12 @@
+import 'package:chat_app/components/my_appbar.dart';
 import 'package:chat_app/components/my_drawer.dart';
 import 'package:chat_app/services/authentication/auth_service.dart';
 import 'package:chat_app/services/chat/chat_service.dart';
 import 'package:flutter/material.dart';
+import 'package:gusto_neumorphic/gusto_neumorphic.dart';
+/*
 import 'package:neumorphic_ui/neumorphic_ui.dart';
+*/
 
 import '../components/user_tile.dart';
 import 'chat_page.dart';
@@ -13,17 +17,23 @@ class HomePage extends StatelessWidget {
   //chat and auth service
   final ChatService _chatService = ChatService();
   final AuthService _authService = AuthService();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        drawer: MyDrawer(),
-        appBar: AppBar(
-          title: const Text('Home'),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-        ),
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Color(0xffcbd8ca),
+      drawer: MyDrawer(),
+      appBar: MyAppBar(
+        onMenuPressed: () {
+          _scaffoldKey.currentState?.openDrawer();
+        },
+        title: 'H O M E',
+      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+        child: _buildUserList(),
       ),
     );
   }
@@ -38,7 +48,7 @@ class HomePage extends StatelessWidget {
           }
           //Loading
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Text("LLoading...");
+            return const Text("Loading...");
           }
 
           return ListView(
@@ -55,18 +65,25 @@ class HomePage extends StatelessWidget {
   Widget _buildUserListItem(
       Map<String, dynamic> userData, BuildContext context) {
     //Display all users except current user
-    return UserTile(
-      text: userData["email"],
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChatPage(
-              receiverEmail: userData["email"],
+
+    if (userData['email'] != _authService.getCurrentUser()!.email) {
+      return UserTile(
+        text: userData["name"],
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatPage(
+                receiverEmail: userData['email'],
+                receiverID: userData['uid'],
+                receivername: userData['name'],
+              ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    } else {
+      return Container();
+    }
   }
 }

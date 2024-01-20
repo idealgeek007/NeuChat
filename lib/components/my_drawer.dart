@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:neumorphic_ui/neumorphic_ui.dart';
+import 'package:chat_app/constants/constants.dart';
+import 'package:chat_app/pages/home_page.dart';
+import 'package:gusto_neumorphic/gusto_neumorphic.dart';
 
-import '../pages/settings_page.dart';
 import '../services/authentication/auth_service.dart';
 
 void logout() {
@@ -9,13 +9,34 @@ void logout() {
   _auth.signOut();
 }
 
+Widget _buildUsername() {
+  final AuthService _authService = AuthService();
+
+  return FutureBuilder(
+    future: _authService.getCurrentUserName(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return CircularProgressIndicator(); // or a loading indicator
+      } else if (snapshot.hasError) {
+        return Text("Error: ${snapshot.error}");
+      } else {
+        final username = snapshot.data ?? 'Unknown';
+        return Text(
+          "Welcome, $username!",
+          style: ktextstyle.copyWith(fontWeight: FontWeight.w500),
+        );
+      }
+    },
+  );
+}
+
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+  MyDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.grey.shade300,
+      backgroundColor: Theme.of(context).colorScheme.background,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -23,70 +44,99 @@ class MyDrawer extends StatelessWidget {
           Column(
             children: [
               DrawerHeader(
-                child: Icon(
-                  Icons.message,
-                  size: 100,
-                  color: Theme.of(context).colorScheme.primary,
+                child: Neumorphic(
+                  child: Image.asset('assets/logo.png'),
+                  style: NeumorphicStyle(
+                    color: Theme.of(context).colorScheme.background,
+                  ),
                 ),
-              ), //TODO: Change icon here
+              ),
+
+              _buildUsername(),
 
               //home list tile
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: ListTile(
-                  title: Text(
-                    "H O M E",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Theme.of(context).colorScheme.primary,
+              listtile(
+                iconData: Icons.home_filled,
+                title: 'H O M E',
+                color: Color(0xff97c272),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
                     ),
-                  ),
-                  leading: Icon(Icons.home_filled,
-                      size: 30, color: Theme.of(context).colorScheme.primary),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
+                  );
+                },
               ),
-
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: ListTile(
-                  title: Text(
-                    "S E T T I N G S",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  leading: Icon(Icons.settings,
-                      size: 30, color: Theme.of(context).colorScheme.primary),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Settings()));
-                  },
-                ),
+              SizedBox.fromSize(
+                size: Size.fromHeight(10),
               ),
-
-/*
-              logout tile
-*/
             ],
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, bottom: 30),
             child: NeumorphicButton(
+              style: NeumorphicStyle(
+                  color: Theme.of(context).colorScheme.background),
               child: Text(
                 "L O G O U T",
                 style: TextStyle(
-                  fontSize: 20,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                    fontSize: 20,
+                    color: Color(0xff97c272),
+                    fontWeight: FontWeight.w500),
               ),
               onPressed: logout,
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class listtile extends StatelessWidget {
+  String title;
+  IconData iconData;
+  Color color;
+  Function onPressed;
+  listtile(
+      {super.key,
+      required this.title,
+      required this.iconData,
+      required this.color,
+      required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 290,
+      child: NeumorphicButton(
+        style: NeumorphicStyle(color: Theme.of(context).colorScheme.background),
+        child: ListTile(
+          title: NeumorphicText(
+            textAlign: TextAlign.left,
+            title,
+            style: NeumorphicStyle(
+                depth: 2,
+                shape: NeumorphicShape.concave,
+                color: color,
+                lightSource: LightSource.bottomRight),
+            textStyle: NeumorphicTextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          leading: NeumorphicIcon(
+            iconData,
+            size: 35,
+            style: NeumorphicStyle(
+              color: color,
+              depth: 2,
+              shape: NeumorphicShape.concave,
+            ),
+          ),
+        ),
+        onPressed: () => onPressed(),
       ),
     );
   }

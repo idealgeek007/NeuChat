@@ -1,9 +1,10 @@
 import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/pages/home_page.dart';
+import 'package:chat_app/services/authentication/auth_gate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/themes/lightmode.dart';
-import 'package:neumorphic_ui/neumorphic_ui.dart';
+import 'package:gusto_neumorphic/gusto_neumorphic.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       /*home: const AuthGate(),*/
-      home: HomePage(),
+      home: AuthGate(),
       theme: lightmode,
     );
   }

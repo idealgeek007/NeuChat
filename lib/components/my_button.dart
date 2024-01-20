@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:neumorphic_ui/neumorphic_ui.dart';
+import 'package:gusto_neumorphic/gusto_neumorphic.dart';
 
 class MyButton extends StatelessWidget {
   final void Function()? onTap;
@@ -14,7 +13,7 @@ class MyButton extends StatelessWidget {
         child: NeumorphicButton(
           onPressed: onTap,
           style: NeumorphicStyle(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.background,
               boxShape:
                   NeumorphicBoxShape.roundRect(BorderRadius.circular(12))),
           child: Center(
@@ -22,7 +21,7 @@ class MyButton extends StatelessWidget {
               text,
               style: TextStyle(
                 fontSize: 24,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
           ),
