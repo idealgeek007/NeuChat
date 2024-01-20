@@ -1,4 +1,4 @@
-import 'package:chat_app/components/chat_bubble.dart';
+import 'package:chat_app/components/neu_chatcont.dart';
 import 'package:chat_app/components/my_appbar.dart';
 import 'package:chat_app/components/my_drawer.dart';
 import 'package:chat_app/components/neu_textfield.dart';
