@@ -1,9 +1,10 @@
 # chat_app
 
 A simple chat app
-Register Page
-![register](https://github.com/idealgeek007/NeuChat/assets/90248052/1c3789ec-6dbd-4187-8fe2-4a284628776f)
 
+
+![register](https://github.com/idealgeek007/NeuChat/assets/90248052/1c3789ec-6dbd-4187-8fe2-4a284628776f)
+Register Page
 
 ---
 
