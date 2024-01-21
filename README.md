@@ -2,7 +2,7 @@
 
 A simple chat app
 
-
+---
 ![register](https://github.com/idealgeek007/NeuChat/assets/90248052/1c3789ec-6dbd-4187-8fe2-4a284628776f)
 Register Page
 
